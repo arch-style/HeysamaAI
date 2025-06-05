@@ -85,6 +85,7 @@ class HeysamaAI {
         for (const stat of Object.keys(this.stats)) {
             this.stats[stat].classList.add('rolling');
             this.stats[stat].textContent = '?';
+            document.getElementById(`${stat}-dice`).textContent = '';
         }
         
         await new Promise(resolve => setTimeout(resolve, 500));
@@ -102,6 +103,7 @@ class HeysamaAI {
             
             this.stats[stat].classList.remove('rolling');
             this.stats[stat].textContent = total;
+            document.getElementById(`${stat}-dice`).textContent = `(${results.join('+')})`;
         }
         
         const avgRatio = totalSum / (Object.keys(this.stats).length * maxPossiblePerStat);
