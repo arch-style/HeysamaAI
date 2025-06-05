@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>へー様AI - 不公平ダイス</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>へー様AI</h1>
+            <p>不公平なダイスロールアプリ</p>
+        </header>
+
+        <div class="controls">
+            <div class="control-group">
+                <label for="diceType">ダイスの種類:</label>
+                <select id="diceType">
+                    <option value="4">4面体 (d4)</option>
+                    <option value="6" selected>6面体 (d6)</option>
+                    <option value="8">8面体 (d8)</option>
+                    <option value="10">10面体 (d10)</option>
+                    <option value="12">12面体 (d12)</option>
+                    <option value="20">20面体 (d20)</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="diceCount">ダイス数:</label>
+                <input type="number" id="diceCount" min="1" max="10" value="1">
+            </div>
+
+            <button id="rollButton" class="roll-button">ダイスロール!</button>
+        </div>
+
+        <div class="animation-window">
+            <div id="diceDisplay" class="dice-display">
+                <div class="dice-container">
+                    <div class="dice">?</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="face-container">
+            <div id="face" class="face neutral">😐</div>
+            <div id="resultText" class="result-text">ダイスを振ってください</div>
+        </div>
+
+        <div class="results">
+            <div id="results" class="results-display"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

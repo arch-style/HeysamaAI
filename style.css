@@ -1,0 +1,213 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    color: white;
+}
+
+header h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.control-group label {
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+select, input {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
+}
+
+.roll-button {
+    padding: 12px 24px;
+    background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.roll-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.roll-button:active {
+    transform: translateY(0);
+}
+
+.roll-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.animation-window {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 40px;
+    margin: 30px 0;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    min-height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dice-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.dice-container {
+    perspective: 1000px;
+}
+
+.dice {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(45deg, #4CAF50, #45a049);
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.dice.rolling {
+    animation: rollAnimation 1s ease-in-out;
+}
+
+@keyframes rollAnimation {
+    0% { transform: rotateX(0) rotateY(0); }
+    25% { transform: rotateX(180deg) rotateY(90deg); }
+    50% { transform: rotateX(360deg) rotateY(180deg); }
+    75% { transform: rotateX(540deg) rotateY(270deg); }
+    100% { transform: rotateX(720deg) rotateY(360deg); }
+}
+
+.face-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.face {
+    font-size: 4rem;
+    margin-bottom: 10px;
+    transition: all 0.5s ease;
+}
+
+.face.very-sad { transform: scale(1.2); }
+.face.sad { transform: scale(1.1); }
+.face.neutral { transform: scale(1.0); }
+.face.happy { transform: scale(1.1); }
+.face.very-happy { transform: scale(1.2); }
+
+.result-text {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.results-display {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.results-display.empty {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .controls {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .animation-window {
+        padding: 20px;
+        min-height: 150px;
+    }
+    
+    .dice {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+    
+    .face {
+        font-size: 3rem;
+    }
+}
