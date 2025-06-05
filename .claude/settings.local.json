@@ -27,7 +27,9 @@
       "Bash(mv:*)",
       "Bash(git status:*)",
       "Bash(git diff:*)",
-      "Bash(git log:*)"
+      "Bash(git log:*)",
+      "Bash(gh repo create:*)",
+      "Bash(git remote set-url:*)"
     ],
     "deny": []
   },

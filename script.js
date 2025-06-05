@@ -17,6 +17,7 @@ class HeysamaAI {
         };
         
         this.initializeEventListeners();
+        this.initializeCharacterSheet();
     }
     
     initializeEventListeners() {
@@ -27,6 +28,109 @@ class HeysamaAI {
             if (value < 1) e.target.value = 1;
             if (value > 10) e.target.value = 10;
         });
+    }
+    
+    initializeCharacterSheet() {
+        this.characterCreateButton = document.getElementById('characterCreateButton');
+        this.backButton = document.getElementById('backButton');
+        this.mainScreen = document.getElementById('mainScreen');
+        this.characterScreen = document.getElementById('characterScreen');
+        
+        this.charDiceTypeSelect = document.getElementById('charDiceType');
+        this.charDiceCountInput = document.getElementById('charDiceCount');
+        this.charRollButton = document.getElementById('charRollButton');
+        this.charFace = document.getElementById('charFace');
+        this.charResultText = document.getElementById('charResultText');
+        
+        this.stats = {
+            strength: document.getElementById('strength'),
+            constitution: document.getElementById('constitution'),
+            magic: document.getElementById('magic'),
+            dexterity: document.getElementById('dexterity'),
+            luck: document.getElementById('luck'),
+            charisma: document.getElementById('charisma')
+        };
+        
+        this.characterCreateButton.addEventListener('click', () => this.showCharacterScreen());
+        this.backButton.addEventListener('click', () => this.showMainScreen());
+        this.charRollButton.addEventListener('click', () => this.rollCharacterStats());
+        
+        this.charDiceCountInput.addEventListener('change', (e) => {
+            const value = parseInt(e.target.value);
+            if (value < 1) e.target.value = 1;
+            if (value > 10) e.target.value = 10;
+        });
+    }
+    
+    showCharacterScreen() {
+        this.mainScreen.classList.remove('active');
+        this.characterScreen.classList.add('active');
+    }
+    
+    showMainScreen() {
+        this.characterScreen.classList.remove('active');
+        this.mainScreen.classList.add('active');
+    }
+    
+    async rollCharacterStats() {
+        const diceType = parseInt(this.charDiceTypeSelect.value);
+        const diceCount = parseInt(this.charDiceCountInput.value);
+        
+        this.charRollButton.disabled = true;
+        
+        const statResults = {};
+        let totalSum = 0;
+        const maxPossiblePerStat = diceCount * diceType;
+        
+        for (const stat of Object.keys(this.stats)) {
+            this.stats[stat].classList.add('rolling');
+            this.stats[stat].textContent = '?';
+        }
+        
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        for (const stat of Object.keys(this.stats)) {
+            const results = [];
+            for (let i = 0; i < diceCount; i++) {
+                results.push(this.biasedRoll(diceType));
+            }
+            const total = results.reduce((sum, result) => sum + result, 0);
+            statResults[stat] = total;
+            totalSum += total;
+            
+            await new Promise(resolve => setTimeout(resolve, 100));
+            
+            this.stats[stat].classList.remove('rolling');
+            this.stats[stat].textContent = total;
+        }
+        
+        const avgRatio = totalSum / (Object.keys(this.stats).length * maxPossiblePerStat);
+        this.updateCharacterFace(avgRatio);
+        
+        this.charRollButton.disabled = false;
+    }
+    
+    updateCharacterFace(ratio) {
+        let level;
+        if (ratio <= 0.2) level = 1;
+        else if (ratio <= 0.4) level = 2;
+        else if (ratio <= 0.6) level = 3;
+        else if (ratio <= 0.8) level = 4;
+        else level = 5;
+        
+        const expression = this.faceExpressions[level];
+        
+        this.charFace.className = `face ${expression.class}`;
+        this.charFace.textContent = expression.emoji;
+        this.charResultText.textContent = expression.text;
+        
+        if (level <= 2) {
+            this.charResultText.textContent += ' - 弱いキャラクターが生まれました...';
+        } else if (level >= 4) {
+            this.charResultText.textContent += ' - 強力なキャラクターです！';
+        } else {
+            this.charResultText.textContent += ' - 平均的なキャラクターです';
+        }
     }
     
     biasedRoll(sides) {
